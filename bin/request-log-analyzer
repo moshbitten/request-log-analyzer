@@ -60,6 +60,7 @@ begin
 
     command_line.switch(:debug)
     command_line.switch(:no_progress)
+    command_line.switch(:no_commercials)
     command_line.switch(:silent)
 
     command_line.minimum_parameters = 1
@@ -90,10 +91,11 @@ rescue CommandLine::Error => e
   puts "  --mailhost <server>        Use the given server as the SMTP server for sending email."
   puts "  --mailsubject <text>       Overwrite default mailsubject."
   puts "  --no-progress              Hide the progress bar."
+  puts "  --no-commercials           Hide the embedded commercials."
   puts "  --output <format>          Output format. Supports 'html' and 'fixed_width'."
   puts "  --report-width <amount>    Width of ASCII report. Defaults to terminal width."
   puts "  --report-amount <amount>   Maximum numer of results per report."
-  puts "  --silent                   Skip the commercials (includes --no-progress)."
+  puts "  --silent                   Skip the commercials (includes --no-progress and --no-commercials)."
   puts "  --yaml <filename>          Dump the results in YAML format in the given file."
   puts "  --parse-strategy <strategy> Legal values are 'assume-correct' or 'cautious'."
   puts

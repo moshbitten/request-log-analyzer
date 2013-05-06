@@ -111,7 +111,7 @@ module RequestLogAnalyzer::Output
 
         caption {
         	padding: 0 0 5px 0;
-        	width: 700px;	
+        	width: 700px;
         	font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
         	text-align: right;
         }

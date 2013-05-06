@@ -30,6 +30,7 @@ module RequestLogAnalyzer
       options[:yaml]           = arguments[:yaml] || arguments[:dump]
       options[:mail]           = arguments[:mail]
       options[:no_progress]    = arguments[:no_progress]
+      options[:no_commercials] = arguments[:no_commercials]
       options[:format]         = arguments[:format]
       options[:output]         = arguments[:output]
       options[:file]           = arguments[:file]
@@ -108,6 +109,7 @@ module RequestLogAnalyzer
     # * <tt>:mailhost</tt> Email the results to this mail server.
     # * <tt>:mailsubject</tt> Email subject.
     # * <tt>:no_progress</tt> Do not display the progress bar (increases parsing speed).
+    # * <tt>:no_commercials</tt> Do not display the embedded commercials.
     # * <tt>:output</tt> 'FixedWidth', 'HTML' or RequestLogAnalyzer::Output class. Defaults to 'FixedWidth'.
     # * <tt>:reject</tt> Reject specific {:field => :value} combination (expects a single hash).
     # * <tt>:report_width</tt> Width of reports in characters for FixedWidth reports. (Defaults to 80)
@@ -115,7 +117,7 @@ module RequestLogAnalyzer
     # * <tt>:select</tt> Select specific {:field => :value} combination (expects a single hash).
     # * <tt>:source_files</tt> Source files to analyze. Provide either File, array of files or STDIN.
     # * <tt>:yaml</tt> Output to YAML file.
-    # * <tt>:silent</tt> Minimal output automatically implies :no_progress
+    # * <tt>:silent</tt> Minimal output automatically implies :no_progress and :no_commercials
     # * <tt>:source</tt> The class to instantiate to grab the requestes, must be a RequestLogAnalyzer::Source::Base descendant. (Defaults to RequestLogAnalyzer::Source::LogParser)
     #
     # === Example
@@ -142,6 +144,7 @@ module RequestLogAnalyzer
       options[:source]        ||= RequestLogAnalyzer::Source::LogParser
 
       options[:no_progress] = true if options[:silent]
+      options[:no_commercials] = true if options[:silent]
 
       # Deprecation warnings
       if options[:dump]
@@ -192,6 +195,7 @@ module RequestLogAnalyzer
                          :yaml           => options[:yaml],
                          :reset_database => options[:reset_database],
                          :no_progress    => options[:no_progress],
+                         :no_commercials => options[:no_commercials],
                          :silent         => options[:silent]
                        })
 
@@ -238,6 +242,7 @@ module RequestLogAnalyzer
     # * <tt>:yaml</tt> Yaml Dump the contrller should use.
     # * <tt>:output</tt> All report outputs get << through this output.
     # * <tt>:no_progress</tt> No progress bar
+    # * <tt>:no_commercials</tt> No commercials
     # * <tt>:silent</tt> Minimal output, only error
     def initialize(source, options = {})
 
@@ -251,7 +256,7 @@ module RequestLogAnalyzer
       # Register the request format for this session after checking its validity
       raise "Invalid file format!" unless @source.file_format.valid?
 
-      # Install event handlers for wrnings, progress updates and source changes
+      # Install event handlers for warnings, progress updates and source changes
       @source.warning        = lambda { |type, message, lineno|  @aggregators.each { |agg| agg.warning(type, message, lineno) } }
       @source.progress       = lambda { |message, value| handle_progress(message, value) } unless options[:no_progress]
       @source.source_changes = lambda { |change, filename| handle_source_change(change, filename) }
