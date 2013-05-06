@@ -178,6 +178,7 @@ module RequestLogAnalyzer
 
       output_instance = output_class.new(output_object, output_args)
 
+puts "format: #{options[:format]}"
       # Create the controller with the correct file format
       if options[:format].kind_of?(Hash)
         file_format = RequestLogAnalyzer::FileFormat.load(options[:format].keys[0], options[:format].values[0])
