@@ -1,0 +1,25 @@
+{
+        "folders":
+        [
+                {
+                        "path": ".",
+      "folder_exclude_patterns": [
+        ".git",
+        "images",
+        "log",
+        "tmp"
+      ],
+      "file_exclude_patterns": [
+        "*~",
+        "*.sublime-workspace",
+        ".git*",
+        ".keep",
+        "Gemfile.lock",
+        ".ctags",
+        ".rbenv-version",
+        ".rspec",
+        "certificates-SRCR.txt"
+      ]
+                }
+        ]
+}
