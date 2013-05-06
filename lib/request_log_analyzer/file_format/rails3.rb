@@ -115,14 +115,12 @@ module RequestLogAnalyzer::FileFormat
         # Handle these formats
         # - 2010-10-26 02:27:15 +0000 (ruby 1.9.2)
         # - Thu Oct 25 16:15:18 -0800 2010
-        # - Oct 25 16:15:18
+        # 2013-05-05 19:09:23.160     (Rails 3:  Time.now.to_formatted_s :log_timestamp)
+
         if value =~ /^#{CommonRegularExpressions::TIMESTAMP_PARTS['Y']}/
           value.gsub!(/\W/,'')
           value[0..13].to_i
         else
-          if value =~ /^[A-z]+ [ ]*[0-9]+ [0-9]+:[0-9]+:[0-9]+/
-            value = "XXX " + value
-          end
           value.gsub!(/\W/,'')
           time_as_str = value[-4..-1] # year
           # convert the month to a 2-digit representation
